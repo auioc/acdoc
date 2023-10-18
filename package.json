@@ -1,0 +1,36 @@
+{
+    "name": "acdoc",
+    "version": "1.1.0",
+    "description": "acdoc",
+    "scripts": {
+        "watch": "watchify src/main.ts --debug -p tsify -o public/bundle.js",
+        "server": "http-server -p 8080"
+    },
+    "author": {
+        "name": "LainIO24",
+        "url": "https://github.com/lainio24"
+    },
+    "contributors": [
+        {
+            "name": "WakelessSloth56",
+            "url": "https://github.com/WakelessSloth56"
+        }
+    ],
+    "homepage": "https://hi.auioc.org/banciyuan-archive/",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:auioc/acdoc.git"
+    },
+    "license": "AGPL-3.0-or-later",
+    "dependencies": {
+        "marked": "^5.1.2"
+    },
+    "devDependencies": {
+        "browserify": "^17.0.0",
+        "html-minifier-terser": "^7.2.0",
+        "terser": "^5.19.2",
+        "tsify": "^5.0.4",
+        "typescript": "^5.1.6",
+        "@types/marked": "^5.0.1"
+    }
+}
