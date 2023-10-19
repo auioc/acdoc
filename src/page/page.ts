@@ -44,20 +44,16 @@ export class Page {
     }
 
     public html() {
+        const asideL = html('aside', 'aside-left', [this.catalogueElement]);
         this.headerElement.append(
             html('div', 'header-title', [
                 htmlA(this.manifest.title, '#/index.md'),
             ]),
-            html('div', 'sidebar-toggle', [
-                opHtml(
-                    html('button', 'sidebar-toggle-button', ['SIDEBAR']),
-                    (el) => {
-                        el.onclick = (ev) => {
-                            toggleClass(this.catalogueElement, 'hide');
-                        };
-                    }
-                ),
-            ])
+            opHtml(html('div', 'toggle-aside-left', ['\u2630']), (el) => {
+                el.onclick = (ev) => {
+                    toggleClass(asideL, 'hide');
+                };
+            })
         );
         this.footerElement.append(
             html('div', 'manifest-version', [
@@ -74,10 +70,7 @@ export class Page {
         );
         this.pageElement.append(
             this.headerElement,
-            html('div', 'content', [
-                html('aside', 'catalogue-wrapper', [this.catalogueElement]),
-                this.articleElement,
-            ]),
+            html('div', 'content', [asideL, this.articleElement]),
             this.footerElement
         );
         return this.pageElement;

@@ -25,7 +25,6 @@ body {
     border: 1px solid #bbb;
     padding: 0.5em 2em;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: #eee;
 }
@@ -40,7 +39,15 @@ body {
     font-weight: bold;
 }
 
-.catalogue-wrapper {
+.toggle-aside-left {
+    margin-left: 1em;
+    cursor: pointer;
+}
+.toggle-aside-left:hover {
+    color: #999;
+}
+
+.aside-left {
     border: 1px solid #bbb;
     padding: 1em;
     overflow: auto;
@@ -64,7 +71,7 @@ body {
     padding-left: 12px;
     scroll-margin-top: 3.2em;
     position: relative;
-    border-left: 2px solid #636363;
+    border-left: 1px solid #bbb;
 }
 
 .catalogue-root > li {
@@ -75,10 +82,10 @@ body {
     content: '';
     position: absolute;
     top: 0;
-    left: calc(-4px + 2px);
+    left: calc(-2px + 1px);
     width: 10px;
     height: 9px;
-    border-bottom: 2px solid #636363;
+    border-bottom: 1px solid #bbb;
 }
 
 .catalogue li:last-child {
@@ -86,8 +93,8 @@ body {
 }
 
 .catalogue li:last-child::before {
-    border-left: 2px solid #636363;
-    width: calc(10px - 2px);
+    border-left: 1px solid #bbb;
+    width: calc(10px - 1px);
 }
 
 .catalogue a:hover {
@@ -95,7 +102,7 @@ body {
 }
 
 .catalogue a.nolink:hover {
-    color: gray;
+    color: #999;
     cursor: default;
 }
 
@@ -125,7 +132,7 @@ body {
 }
 
 .article-info {
-    border-top: 1px solid #d2d2d2;
+    border-top: 1px solid #aaa;
     padding-top: 1em;
     margin-top: 1em;
     font-size: small;
