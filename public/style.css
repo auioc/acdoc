@@ -106,6 +106,9 @@ body {
     cursor: default;
 }
 
+.catalogue a.draft {
+    color: #999;
+}
 .catalogue .active > a {
     color: blue;
 }

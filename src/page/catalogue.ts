@@ -6,6 +6,7 @@ export interface Chapter {
     noindex?: boolean;
     notitle?: boolean;
     hide?: boolean;
+    draft?: boolean;
     source?: string;
     chapters?: Chapter[];
 }
@@ -19,10 +20,16 @@ function g(
     let path = '';
     if (ch.chapters) {
         parentPath += ch.path + '/';
-        path = ch.noindex ? null : parentPath;
+        path = ch.noindex || ch.draft ? null : parentPath;
 
         children = [
-            linkHash(ch.title, path, 'section-link' + (path ? '' : ' nolink')),
+            linkHash(
+                ch.title,
+                path,
+                'section-link' +
+                    (path ? '' : ' nolink') +
+                    (ch.draft ? ' draft' : '')
+            ),
             html(
                 'ol',
                 'section',
@@ -30,11 +37,15 @@ function g(
             ),
         ];
     } else {
-        path = parentPath + ch.path;
-        if (path.endsWith('.md')) {
-            path = path.slice(0, -3);
+        if (ch.draft) {
+            path = null;
+        } else {
+            path = parentPath + ch.path;
+            if (path.endsWith('.md')) {
+                path = path.slice(0, -3);
+            }
         }
-        children = [linkHash(ch.title, path)];
+        children = [linkHash(ch.title, path, ch.draft ? 'draft' : null)];
     }
     const li = html('li', 'chapter' + (ch.hide ? ' hide' : ''), children);
     if (path) {
