@@ -4,6 +4,7 @@
         "MD033": false,
         "MD041": false
     },
-    "conventionalCommits.scopes": ["repo", "page", "page.cat"],
-    "cSpell.words": ["acdoc", "nolink", "tsify"]
+    "conventionalCommits.scopes": ["repo", "page", "page.cat", "page.article"],
+    "cSpell.words": ["acdoc", "nolink", "tsify"],
+    "liveServer.settings.root": "/public"
 }
