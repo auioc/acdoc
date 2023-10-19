@@ -12,6 +12,7 @@ export interface Manifest {
     title: string;
     version: string;
     lang?: { [k in keyof typeof langDefault]?: string };
+    homepage?: Chapter;
     chapters: Chapter[];
 }
 

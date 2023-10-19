@@ -15,7 +15,7 @@ export class Page {
     constructor(manifest: Manifest) {
         this.manifest = manifest;
         this.pageElement = html('div', 'page');
-        this.catalogue = new Catalogue(manifest.chapters);
+        this.catalogue = new Catalogue(manifest.chapters, manifest.homepage);
         this.catalogueElement = this.catalogue.html();
         this.articleElement = html('div', 'article');
         this.headerElement = html('header', 'header');
@@ -27,7 +27,7 @@ export class Page {
         const chapter = this.catalogue.get(path);
         this.articleElement.innerHTML = '';
         if (chapter) {
-            this.title(chapter.title);
+            this.title(chapter.notitle ? null : chapter.title);
             this.article = new Article(chapter, url, query);
             this.articleElement.append(...this.article.html());
             this.catalogue.highlight(path);

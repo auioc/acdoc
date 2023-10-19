@@ -44,44 +44,61 @@ body {
     width: 300px;
     background-color: #fafafa;
 }
+
+.catalogue-homepage {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
 .catalogue ol {
     padding-left: 0;
     margin: 0;
     list-style-type: none;
 }
+
 .catalogue li {
     padding-left: 12px;
-    margin-left: 8px;
     scroll-margin-top: 3.2em;
     position: relative;
-    border-left: 1px solid #636363;
+    border-left: 2px solid #636363;
 }
+
+.catalogue-root > li {
+    margin-left: 8px;
+}
+
 .catalogue li::before {
     content: '';
     position: absolute;
     top: 0;
-    left: calc(-2px + 1px);
+    left: calc(-4px + 2px);
     width: 10px;
-    height: 12px;
-    border-bottom: 1px solid #636363;
+    height: 9px;
+    border-bottom: 2px solid #636363;
 }
+
 .catalogue li:last-child {
     border-color: transparent;
 }
+
 .catalogue li:last-child::before {
-    border-left: 1px solid #636363;
-    width: calc(10px - 1px);
+    border-left: 2px solid #636363;
+    width: calc(10px - 2px);
 }
-.catalogue li a:hover {
+
+.catalogue a:hover {
     color: blue;
 }
-.catalogue li a.nolink:hover {
+
+.catalogue a.nolink:hover {
     color: gray;
     cursor: default;
 }
-.catalogue li.active > a {
+
+.catalogue .active > a {
     color: blue;
 }
+
 .catalogue a {
     color: unset;
     text-decoration: none;

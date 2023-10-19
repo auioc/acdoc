@@ -4,6 +4,7 @@ export interface Chapter {
     title: string;
     path: string;
     noindex?: boolean;
+    notitle?: boolean;
     hide?: boolean;
     source?: string;
     chapters?: Chapter[];
@@ -40,6 +41,7 @@ function g(
 }
 
 export class Catalogue {
+    private readonly homepage: Chapter;
     private readonly chapters: Chapter[];
     private readonly map: {
         [path: string]: {
@@ -48,8 +50,9 @@ export class Catalogue {
         };
     } = {};
 
-    constructor(chapters: Chapter[]) {
+    constructor(chapters: Chapter[], homepage?: Chapter) {
         this.chapters = chapters;
+        this.homepage = homepage;
     }
 
     public addToMap(path: string, chapter: Chapter, link: HTMLElement) {
@@ -76,14 +79,17 @@ export class Catalogue {
     }
 
     public html() {
-        return html('div', 'catalogue', [
-            html(
-                'ol',
-                'catalogue-root',
-                this.chapters.map((ch) =>
-                    g(ch, '', (p, c, l) => this.addToMap(p, c, l))
-                )
-            ),
-        ]);
+        const l = [];
+        if (this.homepage) {
+            const h = html('div', 'catalogue-homepage', [
+                linkHash(this.homepage.title, this.homepage.path),
+            ]);
+            l.push(h);
+            this.addToMap(this.homepage.path, this.homepage, h);
+        }
+        this.chapters.forEach((ch) =>
+            l.push(g(ch, '', (p, c, l) => this.addToMap(p, c, l)))
+        );
+        return html('div', 'catalogue', [html('ol', 'catalogue-root', l)]);
     }
 }
