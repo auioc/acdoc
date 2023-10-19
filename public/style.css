@@ -1,5 +1,27 @@
 /* ACDOC - {version} */
 
+:root {
+    --fg-color: unset;
+    --bg-color: #eee;
+    --aside-bg-color: #fafafa;
+    --article-bg-color: #fff;
+    --border-color: #bbb;
+    --link-color: #00f;
+    --link-color-disabled: #999;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fg-color: #fff;
+        --bg-color: #000;
+        --aside-bg-color: #000;
+        --article-bg-color: #000;
+        --border-color: #bbb;
+        --link-color: #00f;
+        --link-color-disabled: #999;
+    }
+}
+
 html,
 body {
     height: 100%;
@@ -19,14 +41,19 @@ body {
     display: flex;
     flex-direction: column;
     font-size: 0.85em;
+    color: var(--fg-color);
+}
+
+.acdoc a {
+    color: var(--link-color);
 }
 
 .header {
-    border: 1px solid #bbb;
+    border: 1px solid var(--border-color);
     padding: 0.5em 2em;
     display: flex;
     align-items: center;
-    background-color: #eee;
+    background-color: var(--bg-color);
 }
 
 .header a {
@@ -44,15 +71,15 @@ body {
     cursor: pointer;
 }
 .toggle-aside-left:hover {
-    color: #999;
+    color: var(--link-color-disabled);
 }
 
 .aside-left {
-    border: 1px solid #bbb;
+    border: 1px solid var(--border-color);
     padding: 1em;
     overflow: auto;
     width: 300px;
-    background-color: #fafafa;
+    background-color: var(--aside-bg-color);
 }
 
 .catalogue-homepage {
@@ -71,7 +98,7 @@ body {
     padding-left: 12px;
     scroll-margin-top: 3.2em;
     position: relative;
-    border-left: 1px solid #bbb;
+    border-left: 1px solid var(--border-color);
 }
 
 .catalogue-root > li {
@@ -85,7 +112,7 @@ body {
     left: calc(-2px + 1px);
     width: 10px;
     height: 9px;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .catalogue li:last-child {
@@ -93,24 +120,24 @@ body {
 }
 
 .catalogue li:last-child::before {
-    border-left: 1px solid #bbb;
+    border-left: 1px solid var(--border-color);
     width: calc(10px - 1px);
 }
 
 .catalogue a:hover {
-    color: blue;
+    color: var(--link-color);
 }
 
 .catalogue a.nolink:hover {
-    color: #999;
+    color: var(--link-color-disabled);
     cursor: default;
 }
 
 .catalogue a.draft {
-    color: #999;
+    color: var(--link-color-disabled);
 }
 .catalogue .active > a {
-    color: blue;
+    color: var(--link-color);
 }
 
 .catalogue a {
@@ -125,7 +152,8 @@ body {
 }
 
 .article {
-    border: 1px solid #bbb;
+    border: 1px solid var(--border-color);
+    background-color: var(--article-bg-color);
     padding: 1em;
     flex: 1;
     overflow-y: auto;
@@ -135,7 +163,7 @@ body {
 }
 
 .article-info {
-    border-top: 1px solid #aaa;
+    border-top: 1px solid var(--border-color);
     padding-top: 1em;
     margin-top: 1em;
     font-size: small;
@@ -143,10 +171,10 @@ body {
 
 .footer {
     display: flex;
-    border: 1px solid #bbb;
+    border: 1px solid var(--border-color);
     padding: 0.5em 2em;
     font-size: small;
-    background-color: #eee;
+    background-color: var(--bg-color);
     justify-content: space-between;
 }
 
@@ -155,7 +183,7 @@ body {
 }
 
 .footer .manifest-version {
-    color: grey;
+    color: var(--link-color-disabled);
 }
 
 .acdoc *::-webkit-scrollbar {
@@ -163,11 +191,11 @@ body {
 }
 
 .acdoc *::-webkit-scrollbar-track {
-    background: #eee;
+    background: var(--bg-color);
 }
 
 .acdoc *::-webkit-scrollbar-thumb {
-    background-color: #bbb;
+    background-color: var(--border-color);
     border-radius: 6px;
-    border: 2px solid #eee;
+    border: 2px solid var(--bg-color);
 }
