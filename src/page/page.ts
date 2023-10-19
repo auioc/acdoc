@@ -27,7 +27,8 @@ export class Page {
         const chapter = this.catalogue.get(path);
         this.articleElement.innerHTML = '';
         if (chapter) {
-            this.article = new Article(this, chapter, url, query);
+            this.title(chapter.title);
+            this.article = new Article(chapter, url, query);
             this.articleElement.append(...this.article.html());
             this.catalogue.highlight(path);
             this.article.start();

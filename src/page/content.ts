@@ -2,18 +2,15 @@ import { NotOkResponseError, httpget } from '../fetch/fetch';
 import { render } from '../render/renderer';
 import { html, htmlA, progress } from '../utils/utils';
 import { Chapter } from './catalogue';
-import { Page } from './page';
 
 export class Article {
-    private readonly page: Page;
     readonly chapter: Chapter;
     readonly url: string;
     readonly query: string;
     readonly body = html('article', 'article-body');
     readonly info = html('div', 'article-info');
 
-    constructor(page: Page, chapter: Chapter, url: string, query: string) {
-        this.page = page;
+    constructor(chapter: Chapter, url: string, query: string) {
         this.chapter = chapter;
         this.url = url;
         this.query = query;
@@ -41,7 +38,6 @@ export class Article {
             .catch((err: Error) => {
                 console.error(err);
                 if (err instanceof NotOkResponseError) {
-                    this.page.title(err.toString());
                     this._ap(err.toString() + ': ' + this.url);
                 } else if (err.name === 'AbortError') {
                 } else {

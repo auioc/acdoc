@@ -5,5 +5,5 @@
         "MD041": false
     },
     "conventionalCommits.scopes": ["repo", "page"],
-    "cSpell.words": ["acdoc", "tsify"]
+    "cSpell.words": ["acdoc", "nolink", "tsify"]
 }
