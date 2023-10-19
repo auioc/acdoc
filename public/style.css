@@ -1,0 +1,93 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.acdoc .page {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    border: 1px solid red;
+    padding: 1em 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eee;
+}
+
+.header a {
+    text-decoration: none;
+}
+
+.catalogue {
+    border: 1px solid red;
+    padding: 1em;
+    overflow: auto;
+    white-space: pre;
+    width: 300px;
+    background-color: #fafafa;
+}
+.catalogue ol {
+    padding-left: 1em;
+    margin: 0;
+    list-style-type: none;
+}
+.catalogue li {
+    margin-block-start: 0.5em;
+}
+.catalogue li a:hover {
+    color: blue;
+}
+.catalogue li a.nolink:hover {
+    color: gray;
+}
+.catalogue li.active > a {
+    color: blue;
+}
+.catalogue a {
+    color: unset;
+    text-decoration: none;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    height: 0;
+}
+
+.article {
+    border: 1px solid red;
+    padding: 1em;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.article-info {
+    border-top: 1px solid #d2d2d2;
+    padding-top: 1em;
+    margin-top: 1em;
+    font-size: small;
+}
+
+.footer {
+    border: 1px solid red;
+    padding: 0.5em 2em;
+    font-size: small;
+    background-color: #eee;
+}
+
+.footer a {
+    text-decoration: none;
+}
