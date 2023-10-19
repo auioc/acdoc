@@ -57,11 +57,8 @@ export class Catalogue {
     }
 
     public get(path: string) {
-        const data = this.map[path];
-        if (data) {
-            return data.chapter;
-        }
-        throw new Error('Unrecognized Chapter');
+        const d = this.map[path];
+        return d ? d.chapter : null;
     }
 
     public highlight(path: string) {

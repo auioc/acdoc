@@ -24,11 +24,18 @@ export class Page {
     }
 
     public async loadContent(path: string, url: string, query: string) {
-        this.article = new Article(this, path, url, query);
+        const chapter = this.catalogue.get(path);
         this.articleElement.innerHTML = '';
-        this.articleElement.append(...this.article.html());
-        this.catalogue.highlight(path);
-        this.article.start();
+        if (chapter) {
+            this.article = new Article(this, chapter, url, query);
+            this.articleElement.append(...this.article.html());
+            this.catalogue.highlight(path);
+            this.article.start();
+        } else {
+            const m = 'Unrecognized Chapter: ' + path;
+            console.error(m);
+            this.articleElement.innerText = m;
+        }
     }
 
     public title(s?: string) {
