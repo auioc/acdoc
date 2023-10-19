@@ -43,7 +43,14 @@ export class ACDOC {
         }).observe(this.targetElement);
 
         initHashRouter((path, query) => {
-            this.page.loadContent(path, this.basePath + path, query);
+            let url = this.basePath + path.slice(1);
+            if (path.endsWith('/')) {
+                url += 'index';
+            }
+            if (!path.endsWith('.md')) {
+                url += '.md';
+            }
+            this.page.loadContent(path, url, query);
         });
     }
 }

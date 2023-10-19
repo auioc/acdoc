@@ -88,7 +88,7 @@ export function htmlA(text: string, url?: string, clazz?: string) {
 }
 
 export function linkHash(title: string, path?: string, clazz?: string) {
-    return htmlA(title, path ? '#/' + path : null, clazz);
+    return htmlA(title, path ? '#' + path : null, clazz);
 }
 
 export function addClass(el: HTMLElement, clazz: string) {

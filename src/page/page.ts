@@ -2,7 +2,7 @@ import { Manifest } from '../main';
 import {
     addClass,
     html,
-    htmlA,
+    linkHash,
     opHtml,
     removeClass,
     toggleClass,
@@ -62,9 +62,7 @@ export class Page {
 
     public html() {
         this.headerElement.append(
-            html('div', 'header-title', [
-                htmlA(this.manifest.title, '#/index.md'),
-            ]),
+            html('div', 'header-title', [linkHash(this.manifest.title, '/')]),
             opHtml(html('div', 'toggle-aside-left', ['\u2630']), (el) => {
                 el.onclick = (ev) => {
                     toggleClass(this.asideLeftElement, 'hide');

@@ -13,24 +13,8 @@ async function hashChange() {
         hashpath('/' + hash);
         return;
     }
-
     console.debug('hashchange:', hash);
-    const [_path, query] = hash.split('?');
-
-    let flag = 0;
-    let path = '' + _path.slice(1);
-    if (_path.endsWith('/')) {
-        path += 'index';
-        flag++;
-    }
-    if (!_path.endsWith('.md')) {
-        path += '.md';
-        flag++;
-    }
-    if (flag) {
-        hashpath(path);
-        return;
-    }
+    const [path, query] = hash.split('?');
     CALLBACK(path, query);
 }
 

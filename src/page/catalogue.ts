@@ -19,7 +19,7 @@ function g(
     let path = '';
     if (ch.chapters) {
         parentPath += ch.path + '/';
-        path = ch.noindex ? null : parentPath + 'index.md';
+        path = ch.noindex ? null : parentPath;
 
         children = [
             linkHash(ch.title, path, 'section-link' + (path ? '' : ' nolink')),
@@ -31,6 +31,9 @@ function g(
         ];
     } else {
         path = parentPath + ch.path;
+        if (path.endsWith('.md')) {
+            path = path.slice(0, -3);
+        }
         children = [linkHash(ch.title, path)];
     }
     const li = html('li', 'chapter' + (ch.hide ? ' hide' : ''), children);
@@ -82,13 +85,15 @@ export class Catalogue {
         const l = [];
         if (this.homepage) {
             const h = html('div', 'catalogue-homepage', [
-                linkHash(this.homepage.title, this.homepage.path),
+                linkHash(this.homepage.title, '/'),
             ]);
             l.push(h);
-            this.addToMap(this.homepage.path, this.homepage, h);
+            this.homepage.notitle = true;
+            this.homepage.chapters = undefined;
+            this.addToMap('/', this.homepage, h);
         }
         this.chapters.forEach((ch) =>
-            l.push(g(ch, '', (p, c, l) => this.addToMap(p, c, l)))
+            l.push(g(ch, '/', (p, c, l) => this.addToMap(p, c, l)))
         );
         return html('div', 'catalogue', [html('ol', 'catalogue-root', l)]);
     }
