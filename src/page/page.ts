@@ -1,5 +1,12 @@
 import { Manifest } from '../main';
-import { html, htmlA, opHtml, toggleClass } from '../utils/utils';
+import {
+    addClass,
+    html,
+    htmlA,
+    opHtml,
+    removeClass,
+    toggleClass,
+} from '../utils/utils';
 import { Catalogue } from './catalogue';
 import { Article } from './content';
 
@@ -7,6 +14,7 @@ export class Page {
     readonly manifest: Manifest;
     readonly catalogue: Catalogue;
     readonly pageElement: HTMLElement;
+    readonly asideLeftElement: HTMLElement;
     readonly catalogueElement: HTMLElement;
     readonly articleElement: HTMLElement;
     readonly headerElement: HTMLElement;
@@ -15,6 +23,7 @@ export class Page {
     constructor(manifest: Manifest) {
         this.manifest = manifest;
         this.pageElement = html('div', 'page');
+        this.asideLeftElement = html('aside', 'aside-left');
         this.catalogue = new Catalogue(manifest.chapters, manifest.homepage);
         this.catalogueElement = this.catalogue.html();
         this.articleElement = html('div', 'article');
@@ -43,15 +52,22 @@ export class Page {
         document.title = (s ? s + ' - ' : '') + this.manifest.title;
     }
 
+    public resize(width: number) {
+        if (width < 880) {
+            addClass(this.asideLeftElement, 'hide');
+        } else {
+            removeClass(this.asideLeftElement, 'hide');
+        }
+    }
+
     public html() {
-        const asideL = html('aside', 'aside-left', [this.catalogueElement]);
         this.headerElement.append(
             html('div', 'header-title', [
                 htmlA(this.manifest.title, '#/index.md'),
             ]),
             opHtml(html('div', 'toggle-aside-left', ['\u2630']), (el) => {
                 el.onclick = (ev) => {
-                    toggleClass(asideL, 'hide');
+                    toggleClass(this.asideLeftElement, 'hide');
                 };
             })
         );
@@ -68,9 +84,13 @@ export class Page {
                 }),
             ])
         );
+        this.asideLeftElement.append(this.catalogueElement);
         this.pageElement.append(
             this.headerElement,
-            html('div', 'content', [asideL, this.articleElement]),
+            html('div', 'content', [
+                this.asideLeftElement,
+                this.articleElement,
+            ]),
             this.footerElement
         );
         return this.pageElement;

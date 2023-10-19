@@ -38,6 +38,10 @@ export class ACDOC {
         this.targetElement.innerHTML = '';
         this.targetElement.append(this.page.html());
 
+        new ResizeObserver(() => {
+            this.page.resize(this.targetElement.clientWidth);
+        }).observe(this.targetElement);
+
         initHashRouter((path, query) => {
             this.page.loadContent(path, this.basePath + path, query);
         });
