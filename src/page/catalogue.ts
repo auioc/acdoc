@@ -65,6 +65,10 @@ export class Catalogue {
         for (const [k, v] of Object.entries(this.map)) {
             if (k === path) {
                 addClass(v.li, 'active');
+                v.li.scrollIntoView({
+                    block: 'start',
+                    behavior: 'smooth',
+                });
             } else {
                 removeClass(v.li, 'active');
             }

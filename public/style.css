@@ -46,12 +46,14 @@ body {
 }
 .catalogue li {
     margin-block-start: 0.5em;
+    scroll-margin-top: 3.2em;
 }
 .catalogue li a:hover {
     color: blue;
 }
 .catalogue li a.nolink:hover {
     color: gray;
+    cursor: default;
 }
 .catalogue li.active > a {
     color: blue;
