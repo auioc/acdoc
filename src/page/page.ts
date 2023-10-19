@@ -60,6 +60,10 @@ export class Page {
             ])
         );
         this.footerElement.append(
+            html('div', 'manifest-version', [
+                'doc version: ',
+                this.manifest.version,
+            ]),
             html('div', 'powered-by', [
                 'Powered by ',
                 opHtml(html('a'), (a) => {
