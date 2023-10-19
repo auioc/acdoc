@@ -45,7 +45,7 @@ export class Page {
 
     public html() {
         this.headerElement.append(
-            html('div', 'home-link', [
+            html('div', 'header-title', [
                 htmlA(this.manifest.title, '#/index.md'),
             ]),
             html('div', 'sidebar-toggle', [

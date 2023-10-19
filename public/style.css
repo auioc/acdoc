@@ -31,6 +31,11 @@ body {
     text-decoration: none;
 }
 
+.header .header-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
 .catalogue {
     border: 1px solid red;
     padding: 1em;
