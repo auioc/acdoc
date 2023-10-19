@@ -71,7 +71,7 @@ export class Page {
         this.pageElement.append(
             this.headerElement,
             html('div', 'content', [
-                this.catalogueElement,
+                html('aside', 'catalogue-wrapper', [this.catalogueElement]),
                 this.articleElement,
             ]),
             this.footerElement

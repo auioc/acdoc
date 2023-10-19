@@ -76,7 +76,7 @@ export class Catalogue {
     }
 
     public html() {
-        return html('aside', 'catalogue', [
+        return html('div', 'catalogue', [
             html(
                 'ol',
                 'catalogue-root',
