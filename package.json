@@ -7,16 +7,19 @@
         "server": "http-server -p 8080"
     },
     "author": {
-        "name": "LainIO24",
-        "url": "https://github.com/lainio24"
+        "name": "AUIOC",
+        "url": "https://github.com/auioc"
     },
     "contributors": [
         {
             "name": "WakelessSloth56",
             "url": "https://github.com/WakelessSloth56"
+        },
+        {
+            "name": "LainIO24",
+            "url": "https://github.com/lainio24"
         }
     ],
-    "homepage": "https://hi.auioc.org/banciyuan-archive/",
     "repository": {
         "type": "git",
         "url": "git@github.com:auioc/acdoc.git"
