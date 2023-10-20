@@ -1,4 +1,5 @@
 import { Manifest } from '../main';
+import { ArticleParser, MarkdownParser } from '../render/renderer';
 import {
     addClass,
     html,
@@ -12,6 +13,7 @@ import { Article } from './content';
 
 export class Page {
     readonly manifest: Manifest;
+    readonly parser: ArticleParser;
     readonly catalogue: Catalogue;
     readonly pageElement: HTMLElement;
     readonly asideLeftElement: HTMLElement;
@@ -20,8 +22,10 @@ export class Page {
     readonly headerElement: HTMLElement;
     readonly footerElement: HTMLElement;
     article: Article;
+    path: string;
     constructor(manifest: Manifest) {
         this.manifest = manifest;
+        this.parser = new MarkdownParser(this);
         this.pageElement = html('div', 'page');
         this.asideLeftElement = html('aside', 'aside-left');
         this.catalogue = new Catalogue(manifest.chapters, manifest.homepage);
@@ -33,11 +37,12 @@ export class Page {
     }
 
     public async loadContent(path: string, url: string, query: string) {
+        this.path = path;
         const chapter = this.catalogue.get(path);
         this.articleElement.innerHTML = '';
         if (chapter) {
             this.title(chapter.notitle ? null : chapter.title);
-            this.article = new Article(chapter, url, query);
+            this.article = new Article(chapter, this.parser, url, query);
             this.articleElement.append(...this.article.html());
             this.catalogue.highlight(path);
             this.article.start();

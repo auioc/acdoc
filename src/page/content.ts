@@ -1,17 +1,24 @@
 import { NotOkResponseError, httpget } from '../fetch/fetch';
-import { render } from '../render/renderer';
+import { ArticleParser } from '../render/renderer';
 import { html, htmlA, progress } from '../utils/utils';
 import { Chapter } from './catalogue';
 
 export class Article {
+    readonly parser: ArticleParser;
     readonly chapter: Chapter;
     readonly url: string;
     readonly query: string;
     readonly body = html('article', 'article-body');
     readonly info = html('div', 'article-info');
 
-    constructor(chapter: Chapter, url: string, query: string) {
+    constructor(
+        chapter: Chapter,
+        parser: ArticleParser,
+        url: string,
+        query: string
+    ) {
         this.chapter = chapter;
+        this.parser = parser;
         this.url = url;
         this.query = query;
     }
@@ -33,7 +40,7 @@ export class Article {
         httpget(this.url, {}, (r, l) =>
             this._a('Fetching... ' + progress(r, l))
         )
-            .then((md) => render(md))
+            .then((md) => this.parser.render(md))
             .then((html) => this._a(html))
             .catch((err: Error) => {
                 console.error(err);

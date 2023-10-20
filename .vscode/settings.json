@@ -9,7 +9,8 @@
         "page",
         "page.cat",
         "page.article",
-        "router"
+        "router",
+        "parser"
     ],
     "cSpell.words": ["acdoc", "nolink", "notitle", "tsify"],
     "liveServer.settings.root": "/public"
