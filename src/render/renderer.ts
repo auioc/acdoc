@@ -34,14 +34,31 @@ export class MarkdownParser implements ArticleParser {
             mangle: false,
             headerIds: false,
             renderer: {
-                link: (href, title, text) => {
-                    const { str, option } = parseOption(title);
-                    // console.debug(str, option);
+                link: (href, _title, text) => {
+                    const { str: title, option } = parseOption(_title);
+                    // console.debug(title, option);
                     const attrs = [];
-                    if (str) attrs.push(`title=${str}`);
-                    if (isAbsolute(href)) {
+
+                    if (title) attrs.push(`title=${title}`);
+
+                    if (option.nohash || isAbsolute(href)) {
                         attrs.push('target=_blank');
                     } else {
+                        let p = this.page.path;
+                        console.log(p, href);
+                        if (!href.startsWith('/')) {
+                            if (!p.endsWith('/')) {
+                                const i = p.lastIndexOf('/');
+                                p = p.substring(0, i != -1 ? i + 1 : p.length);
+                            }
+                            if (href.startsWith('./')) {
+                                href = href.slice(2);
+                            }
+                            href = p + href;
+                        }
+                        if (href.endsWith('.md')) {
+                            href = href.slice(0, -3);
+                        }
                         href = '#' + href;
                     }
 
