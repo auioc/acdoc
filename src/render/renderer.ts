@@ -36,7 +36,6 @@ export class MarkdownParser implements ArticleParser {
             renderer: {
                 link: (href, _title, text) => {
                     const { str: title, option } = parseOption(_title);
-                    // console.debug(title, option);
                     const attrs = [];
 
                     if (title) attrs.push(`title=${title}`);
@@ -45,7 +44,6 @@ export class MarkdownParser implements ArticleParser {
                         attrs.push('target=_blank');
                     } else {
                         let p = this.page.path;
-                        console.log(p, href);
                         if (!href.startsWith('/')) {
                             if (!p.endsWith('/')) {
                                 const i = p.lastIndexOf('/');
@@ -68,12 +66,31 @@ export class MarkdownParser implements ArticleParser {
                     const { str, option } = parseOption(text);
                     // console.debug(str, option);
 
-                    // TODO header id prefix
                     const id = option.id
                         ? 'heading-' + option.id
                         : slugger.slug(str);
 
                     return `<h${level} id="${id}">${str}</h${level}>`;
+                },
+                paragraph: (text: string) => {
+                    if (text.startsWith('^')) {
+                        let c = '';
+                        const f = text.charAt(1);
+                        if (f) {
+                            c = {
+                                '~': 'success',
+                                '?': 'info',
+                                '!': 'warning',
+                                '*': 'danger',
+                            }[f];
+                            if (c) {
+                                return `<div class="${c}"><p>${text
+                                    .slice(2)
+                                    .trim()}</p></div>`;
+                            }
+                        }
+                    }
+                    return `<p>${text}</p>`;
                 },
             },
         });

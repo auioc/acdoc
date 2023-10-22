@@ -8,6 +8,14 @@
     --border-color: #bbb;
     --link-color: #00f;
     --link-color-disabled: #999;
+    --success-fg: #3c763d;
+    --success-bg: #f3f6f3;
+    --info-fg: #337ab7;
+    --info-bg: #f2f6fa;
+    --warning-fg: #f28500;
+    --warning-bg: #fef8f1;
+    --danger-fg: #d9534f;
+    --danger-bg: #fef5f4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,9 +24,6 @@
         --bg-color-1: #000;
         --bg-color-2: #000;
         --article-bg-color: #000;
-        --border-color: #bbb;
-        --link-color: #00f;
-        --link-color-disabled: #999;
     }
 }
 
@@ -226,8 +231,32 @@ body {
 
 .article blockquote {
     margin: 1em 0;
-    padding-left: 1em;
+    padding: 0 1em;
     border: 1px solid var(--border-color);
     border-left-width: 8px;
     background-color: var(--bg-color-2);
+}
+
+.article blockquote:has(> .success) {
+    color: var(--success-fg);
+    border-color: var(--success-fg);
+    background-color: var(--success-bg);
+}
+
+.article blockquote:has(> .info) {
+    color: var(--info-fg);
+    border-color: var(--info-fg);
+    background-color: var(--info-bg);
+}
+
+.article blockquote:has(> .warning) {
+    color: var(--warning-fg);
+    border-color: var(--warning-fg);
+    background-color: var(--warning-bg);
+}
+
+.article blockquote:has(> .danger) {
+    color: var(--danger-fg);
+    border-color: var(--danger-fg);
+    background-color: var(--danger-bg);
 }
