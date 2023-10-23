@@ -55,6 +55,14 @@ export function isAbsolute(path: string) {
     return /(:|(\/{2}))/g.test(path);
 }
 
+export function getOrElse<T, K extends keyof T>(config: T, key: K, or?: T[K]) {
+    const v = config[key];
+    if (v === undefined) {
+        return or;
+    }
+    return v;
+}
+
 export function html<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     clazz?: string,

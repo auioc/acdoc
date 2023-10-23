@@ -1,17 +1,23 @@
-import { Config, getConfig } from './config';
 import { httpget } from './fetch/fetch';
 import { Chapter } from './page/catalogue';
 import { Page } from './page/page';
 import { initHashRouter } from './router';
+import { getOrElse } from './utils/utils';
 
 const langDefault = {
     source: 'Source',
 };
 
+interface Config {
+    basePath?: string;
+    targetElement?: HTMLElement;
+}
+
 export interface Manifest {
     title: string;
     version: string;
     lang?: { [k in keyof typeof langDefault]?: string };
+    shikiCdn?: string;
     homepage?: Chapter;
     chapters: Chapter[];
 }
@@ -22,8 +28,8 @@ export class ACDOC {
     page: Page;
 
     constructor(config: Config) {
-        this.basePath = getConfig(config, 'basePath', '/docs/');
-        this.targetElement = getConfig(config, 'targetElement', document.body);
+        this.basePath = getOrElse(config, 'basePath', '/docs/');
+        this.targetElement = getOrElse(config, 'targetElement', document.body);
         this.targetElement.classList.add('acdoc');
         console.debug('basePath:', this.basePath);
         window.acdoc = this;

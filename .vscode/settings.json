@@ -12,8 +12,9 @@
         "page.article",
         "router",
         "parser",
-        "parser.md"
+        "parser.md",
+        "utils"
     ],
-    "cSpell.words": ["acdoc", "nohash", "nolink", "notitle", "tsify"],
+    "cSpell.words": ["acdoc", "nohash", "nolink", "notitle", "shiki", "tsify"],
     "liveServer.settings.root": "/public"
 }
