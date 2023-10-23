@@ -1,7 +1,9 @@
 import { Marked } from 'marked';
+import shiki from 'shiki';
 import { Page } from '../page/page';
 import { StringKV } from '../utils/types';
-import { isAbsolute } from '../utils/utils';
+import { getOrElse, isAbsolute } from '../utils/utils';
+import { highlightExt } from './highlight';
 
 function parseOption(str: string) {
     const option: StringKV = {};
@@ -27,76 +29,104 @@ export interface ArticleParser {
 export class MarkdownParser implements ArticleParser {
     private readonly page: Page;
     private readonly marked: Marked;
-
+    private readonly shiki: Promise<shiki.Highlighter>;
     constructor(page: Page) {
         this.page = page;
-        this.marked = new Marked({
-            mangle: false,
-            headerIds: false,
-            renderer: {
-                link: (href, _title, text) => {
-                    const { str: title, option } = parseOption(_title);
-                    const attrs = [];
+        const shikiOptions = getOrElse(page.manifest, 'shiki', {});
+        shiki.setCDN(getOrElse(shikiOptions, 'cdn', '/shiki/'));
+        this.shiki = shiki.getHighlighter({
+            theme: getOrElse(shikiOptions, 'theme', 'nord'),
+            langs: getOrElse(shikiOptions, 'langs', undefined),
+        });
+        this.marked = new Marked(
+            {
+                mangle: false,
+                headerIds: false,
+                renderer: {
+                    link: (href, _title, text) => {
+                        const { str: title, option } = parseOption(_title);
+                        const attrs = [];
 
-                    if (title) attrs.push(`title=${title}`);
+                        if (title) attrs.push(`title=${title}`);
 
-                    if (option.nohash || isAbsolute(href)) {
-                        attrs.push('target=_blank');
-                    } else {
-                        let p = this.page.path;
-                        if (!href.startsWith('/')) {
-                            if (!p.endsWith('/')) {
-                                const i = p.lastIndexOf('/');
-                                p = p.substring(0, i != -1 ? i + 1 : p.length);
+                        if (option.nohash || isAbsolute(href)) {
+                            attrs.push('target=_blank');
+                        } else {
+                            let p = this.page.path;
+                            if (!href.startsWith('/')) {
+                                if (!p.endsWith('/')) {
+                                    const i = p.lastIndexOf('/');
+                                    p = p.substring(
+                                        0,
+                                        i != -1 ? i + 1 : p.length
+                                    );
+                                }
+                                if (href.startsWith('./')) {
+                                    href = href.slice(2);
+                                }
+                                href = p + href;
                             }
-                            if (href.startsWith('./')) {
-                                href = href.slice(2);
+                            if (href.endsWith('.md')) {
+                                href = href.slice(0, -3);
                             }
-                            href = p + href;
+                            href = '#' + href;
                         }
-                        if (href.endsWith('.md')) {
-                            href = href.slice(0, -3);
-                        }
-                        href = '#' + href;
-                    }
 
-                    return `<a href="${href}" ${attrs.join(' ')}>${text}</a>`;
-                },
-                heading: (text, level, raw, slugger) => {
-                    const { str, option } = parseOption(text);
-                    // console.debug(str, option);
+                        return `<a href="${href}" ${attrs.join(
+                            ' '
+                        )}>${text}</a>`;
+                    },
+                    heading: (text, level, raw, slugger) => {
+                        const { str, option } = parseOption(text);
+                        // console.debug(str, option);
 
-                    const id = option.id
-                        ? 'heading-' + option.id
-                        : slugger.slug(str);
+                        const id = option.id
+                            ? 'heading-' + option.id
+                            : slugger.slug(str);
 
-                    return `<h${level} id="${id}">${str}</h${level}>`;
-                },
-                paragraph: (text: string) => {
-                    if (text.startsWith('^')) {
-                        let c = '';
-                        const f = text.charAt(1);
-                        if (f) {
-                            c = {
-                                '~': 'success',
-                                '?': 'info',
-                                '!': 'warning',
-                                '*': 'danger',
-                            }[f];
-                            if (c) {
-                                return `<div class="${c}"><p>${text
-                                    .slice(2)
-                                    .trim()}</p></div>`;
+                        return `<h${level} id="${id}">${str}</h${level}>`;
+                    },
+                    paragraph: (text) => {
+                        if (text.startsWith('^')) {
+                            let c = '';
+                            const f = text.charAt(1);
+                            if (f) {
+                                c = {
+                                    '~': 'success',
+                                    '?': 'info',
+                                    '!': 'warning',
+                                    '*': 'danger',
+                                }[f];
+                                if (c) {
+                                    return `<div class="${c}"><p>${text
+                                        .slice(2)
+                                        .trim()}</p></div>`;
+                                }
                             }
                         }
-                    }
-                    return `<p>${text}</p>`;
+                        return `<p>${text}</p>`;
+                    },
+                    code: (code, language, isEscaped) => {
+                        console.log(code);
+                        return `<pre>${code}</pre>`;
+                    },
                 },
             },
-        });
+            highlightExt(
+                async (code: string, lang: string) => {
+                    const shiki = await this.shiki;
+                    return shiki.codeToHtml(code, { lang: lang });
+                },
+                (code, lang) => {
+                    return `<div class="codeblock language-${lang}">${code}</div>`;
+                }
+            )
+        );
     }
 
+    public async init() {}
+
     public render(md: string) {
-        return this.marked.parse(md);
+        return this.marked.parse(md) as string;
     }
 }

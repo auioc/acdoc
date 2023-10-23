@@ -38,9 +38,12 @@ export class Article {
     private async genArticle() {
         console.debug('fetch markdown:', this.url);
         httpget(this.url, {}, (r, l) =>
-            this._a('Fetching... ' + progress(r, l))
+            this._a('Fetching... ' + progress(r, l) + '<br/>')
         )
-            .then((md) => this.parser.render(md))
+            .then((md) => {
+                this._a('Rendering...<br/>');
+                return this.parser.render(md);
+            })
             .then((html) => this._a(html))
             .catch((err: Error) => {
                 console.error(err);
