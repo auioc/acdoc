@@ -26,6 +26,7 @@ export interface ArticleParser {
     render(text: string): string;
 }
 
+// TODO move to new files
 export class MarkdownParser implements ArticleParser {
     private readonly page: Page;
     private readonly marked: Marked;
@@ -35,8 +36,8 @@ export class MarkdownParser implements ArticleParser {
         const shikiOptions = getOrElse(page.manifest, 'shiki', {});
         shiki.setCDN(getOrElse(shikiOptions, 'cdn', '/shiki/'));
         this.shiki = shiki.getHighlighter({
-            theme: getOrElse(shikiOptions, 'theme', 'nord'),
-            langs: getOrElse(shikiOptions, 'langs', undefined),
+            theme: getOrElse(shikiOptions, 'theme', 'light-plus'),
+            langs: [],
         });
         this.marked = new Marked(
             {
@@ -114,8 +115,23 @@ export class MarkdownParser implements ArticleParser {
             },
             highlightExt(
                 async (code: string, lang: string) => {
-                    const shiki = await this.shiki;
-                    return shiki.codeToHtml(code, { lang: lang });
+                    const hl = await this.shiki;
+                    if (!hl.getLoadedLanguages().includes(lang as shiki.Lang)) {
+                        const bundles = shiki.BUNDLED_LANGUAGES.filter(
+                            (bundle) => {
+                                return (
+                                    bundle.id === lang ||
+                                    bundle.aliases?.includes(lang)
+                                );
+                            }
+                        );
+                        if (bundles.length > 0) {
+                            await hl.loadLanguage(lang as shiki.Lang);
+                        } else {
+                            throw new Error(`Unknown language '${lang}'`);
+                        }
+                    }
+                    return hl.codeToHtml(code, { lang: lang });
                 },
                 (code, lang) => {
                     return `<div class="codeblock language-${lang}">${code}</div>`;

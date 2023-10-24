@@ -1,4 +1,3 @@
-import shiki from 'shiki';
 import { httpget } from './fetch/fetch';
 import { Chapter } from './page/catalogue';
 import { Page } from './page/page';
@@ -21,7 +20,6 @@ export interface Manifest {
     shiki?: {
         cdn?: string;
         theme?: string;
-        langs?: shiki.Lang[];
     };
     homepage?: Chapter;
     chapters: Chapter[];
