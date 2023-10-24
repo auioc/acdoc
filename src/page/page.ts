@@ -1,5 +1,5 @@
 import { Manifest } from '../main';
-import { ArticleParser, MarkdownParser } from '../render/renderer';
+import { ArticleParser, MarkdownParser } from '../marked/parser';
 import {
     addClass,
     html,

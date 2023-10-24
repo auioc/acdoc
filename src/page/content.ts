@@ -1,5 +1,5 @@
 import { NotOkResponseError, httpget } from '../fetch/fetch';
-import { ArticleParser } from '../render/renderer';
+import { ArticleParser } from '../marked/parser';
 import { html, htmlA, progress } from '../utils/utils';
 import { Chapter } from './catalogue';
 

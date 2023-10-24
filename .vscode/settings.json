@@ -11,7 +11,7 @@
         "page.cat",
         "page.article",
         "router",
-        "parser",
+        "marked",
         "marked.shiki",
         "utils"
     ],
