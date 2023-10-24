@@ -36,7 +36,7 @@ body {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .acdoc .page {
@@ -79,7 +79,7 @@ body {
     color: var(--link-color-disabled);
 }
 
-.aside-left {
+.content aside {
     border: 1px solid var(--border-color);
     padding: 1em;
     overflow: auto;
@@ -156,12 +156,19 @@ body {
     height: 0;
 }
 
-.article {
-    border: 1px solid var(--border-color);
-    background-color: var(--article-bg-color);
-    padding: 1em;
+.content section {
     flex: 1;
+    background-color: var(--article-bg-color);
+    border: 1px solid var(--border-color);
     overflow-y: auto;
+}
+
+.message {
+    margin: 0.5em 1em;
+}
+
+.article {
+    padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

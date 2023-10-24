@@ -8,11 +8,13 @@ import {
     removeClass,
     toggleClass,
 } from '../utils/utils';
+import { Article } from './article';
 import { Catalogue } from './catalogue';
-import { Article } from './content';
+import { Messager } from './messager';
 
 export class Page {
     readonly manifest: Manifest;
+    readonly messager: Messager;
     readonly parser: ArticleParser;
     readonly catalogue: Catalogue;
     readonly pageElement: HTMLElement;
@@ -25,9 +27,10 @@ export class Page {
     path: string;
     constructor(manifest: Manifest) {
         this.manifest = manifest;
+        this.messager = new Messager();
         this.parser = new MarkdownParser(this);
         this.pageElement = html('div', 'page');
-        this.asideLeftElement = html('aside', 'aside-left');
+        this.asideLeftElement = html('aside');
         this.catalogue = new Catalogue(manifest.chapters, manifest.homepage);
         this.catalogueElement = this.catalogue.html();
         this.articleElement = html('div', 'article');
@@ -38,18 +41,28 @@ export class Page {
 
     public async loadContent(path: string, url: string, query: string) {
         this.path = path;
+        this.messager.clear();
         const chapter = this.catalogue.get(path);
         this.articleElement.innerHTML = '';
         if (chapter) {
             this.title(chapter.notitle ? null : chapter.title);
-            this.article = new Article(chapter, this.parser, url, query);
+            this.article = new Article(
+                chapter,
+                this.parser,
+                (id, m) => this.messager.message(id, m),
+                url,
+                query
+            );
             this.articleElement.append(...this.article.html());
             this.catalogue.highlight(path);
-            this.article.start();
+            try {
+                await this.article.start();
+                this.messager.clear();
+            } catch (_) {}
         } else {
             const m = 'Unrecognized Chapter: ' + path;
+            this.messager.message('error-chapter', m);
             console.error(m);
-            this.articleElement.innerText = m;
         }
     }
 
@@ -92,7 +105,10 @@ export class Page {
             this.headerElement,
             html('div', 'content', [
                 this.asideLeftElement,
-                this.articleElement,
+                html('section', null, [
+                    this.messager.element,
+                    this.articleElement,
+                ]),
             ]),
             this.footerElement
         );

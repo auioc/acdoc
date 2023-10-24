@@ -7,7 +7,7 @@ import { link } from './renderer/link';
 import { paragraph } from './renderer/paragraph';
 
 export interface ArticleParser {
-    render(text: string): string;
+    render(text: string): Promise<string>;
 }
 
 export class MarkdownParser implements ArticleParser {
@@ -25,11 +25,11 @@ export class MarkdownParser implements ArticleParser {
                     paragraph: paragraph,
                 },
             },
-            shikiHighlight(this.shiki)
+            shikiHighlight(this.shiki, page)
         );
     }
 
-    public render(md: string) {
-        return this.marked.parse(md) as string;
+    public async render(md: string) {
+        return this.marked.parse(md);
     }
 }

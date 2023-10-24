@@ -1,11 +1,13 @@
 import { NotOkResponseError, httpget } from '../fetch/fetch';
 import { ArticleParser } from '../marked/parser';
+import { BiStrConsumer } from '../utils/types';
 import { html, htmlA, progress } from '../utils/utils';
 import { Chapter } from './catalogue';
 
 export class Article {
     readonly parser: ArticleParser;
     readonly chapter: Chapter;
+    readonly message: BiStrConsumer;
     readonly url: string;
     readonly query: string;
     readonly body = html('article', 'article-body');
@@ -14,46 +16,43 @@ export class Article {
     constructor(
         chapter: Chapter,
         parser: ArticleParser,
+        messager: BiStrConsumer,
         url: string,
         query: string
     ) {
         this.chapter = chapter;
         this.parser = parser;
+        this.message = (id, m) => messager('article-' + id, m);
         this.url = url;
         this.query = query;
-    }
-
-    private _a(s: string) {
-        this.body.innerHTML = s;
-    }
-
-    private _ap(...c: (string | HTMLElement)[]) {
-        this.body.append(...c);
     }
 
     private _ip(...c: (string | HTMLElement)[]) {
         this.info.append(...c);
     }
 
-    private async genArticle() {
-        console.debug('fetch markdown:', this.url);
-        httpget(this.url, {}, (r, l) =>
-            this._a('Fetching... ' + progress(r, l) + '<br/>')
-        )
-            .then((md) => {
-                this._a('Rendering...<br/>');
-                return this.parser.render(md);
-            })
-            .then((html) => this._a(html))
-            .catch((err: Error) => {
-                console.error(err);
-                if (err instanceof NotOkResponseError) {
-                    this._ap(err.toString() + ': ' + this.url);
-                } else if (err.name === 'AbortError') {
-                } else {
-                    this._ap(err.message);
-                }
-            });
+    public async start() {
+        this.genInfo();
+        try {
+            const md = await httpget(this.url, {}, (r, l) =>
+                this.message(
+                    'fetching',
+                    'Fetching markdown... ' + progress(r, l)
+                )
+            );
+            this.message('rendering', 'Rendering ... ');
+            const html = await this.parser.render(md);
+            this.body.innerHTML = html;
+        } catch (err) {
+            console.error(err);
+            if (err instanceof NotOkResponseError) {
+                this.message('fetch-error', err.toString() + ': ' + this.url);
+            } else if (err.name === 'AbortError') {
+            } else {
+                this.message('unknown-error', err);
+            }
+            throw err;
+        }
     }
 
     private genInfo() {
@@ -65,10 +64,5 @@ export class Article {
 
     public html() {
         return [this.body, this.info];
-    }
-
-    public start() {
-        this.genInfo();
-        this.genArticle();
     }
 }

@@ -1,5 +1,6 @@
 import shiki from 'shiki';
 import { Manifest } from '../../main';
+import { Page } from '../../page/page';
 import { getOrElse } from '../../utils/utils';
 import { highlightExt } from './highlight.ext';
 
@@ -12,7 +13,10 @@ export function initShiki(manifest: Manifest) {
     });
 }
 
-export function shikiHighlight(hlPromise: Promise<shiki.Highlighter>) {
+export function shikiHighlight(
+    hlPromise: Promise<shiki.Highlighter>,
+    page: Page
+) {
     return highlightExt(
         async (code: string, lang: string) => {
             const hl = await hlPromise;
@@ -21,6 +25,10 @@ export function shikiHighlight(hlPromise: Promise<shiki.Highlighter>) {
                     return bundle.id === lang || bundle.aliases?.includes(lang);
                 });
                 if (bundles.length > 0) {
+                    page.messager.message(
+                        'shiki-load-lang-' + lang,
+                        `[Shiki] Loading language '${lang}'...`
+                    );
                     await hl.loadLanguage(lang as shiki.Lang);
                 } else {
                     throw new Error(`Unknown language '${lang}'`);

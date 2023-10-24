@@ -7,12 +7,9 @@ export function hashpath(path?: string) {
 export function percentage(a: number, b = 100, dp = 2) {
     return ((a / b) * 100).toFixed(dp);
 }
-export function formatTime(ts: number) {
-    if (ts <= 0) {
-        return '0';
-    }
-    return new Date(ts * 1000).toLocaleString(navigator.language, {
-        weekday: 'narrow',
+
+export function localTime(date: Date) {
+    return date.toLocaleString(navigator.language, {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -21,6 +18,13 @@ export function formatTime(ts: number) {
         second: '2-digit',
         hour12: false,
     });
+}
+
+export function formatTime(ts: number) {
+    if (ts <= 0) {
+        return '0';
+    }
+    return localTime(new Date(ts * 1000));
 }
 
 const _SIZE_PREFIX = ['K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
@@ -66,11 +70,15 @@ export function getOrElse<T, K extends keyof T>(config: T, key: K, or?: T[K]) {
 export function html<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     clazz?: string,
-    children?: (HTMLElement | string)[]
+    children?: (HTMLElement | string)[],
+    id?: string
 ) {
     const el = document.createElement(tag);
     if (clazz) {
         el.className = clazz;
+    }
+    if (id) {
+        el.id = id;
     }
     if (children) {
         children.forEach((e) => el.append(e));
