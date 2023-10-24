@@ -55,10 +55,9 @@ export class Page {
             );
             this.articleElement.append(...this.article.html());
             this.catalogue.highlight(path);
-            try {
-                await this.article.start();
+            if (await this.article.start()) {
                 this.messager.clear();
-            } catch (_) {}
+            }
         } else {
             const m = 'Unrecognized Chapter: ' + path;
             this.messager.message('error-chapter', m);

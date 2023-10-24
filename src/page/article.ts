@@ -43,6 +43,7 @@ export class Article {
             this.message('rendering', 'Rendering ... ');
             const html = await this.parser.render(md);
             this.body.innerHTML = html;
+            return true;
         } catch (err) {
             console.error(err);
             if (err instanceof NotOkResponseError) {
@@ -51,7 +52,7 @@ export class Article {
             } else {
                 this.message('unknown-error', err);
             }
-            throw err;
+            return false;
         }
     }
 
