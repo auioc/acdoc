@@ -4,19 +4,15 @@ import { Page } from './page/page';
 import { initHashRouter } from './router';
 import { getOrElse } from './utils/utils';
 
-const langDefault = {
-    source: 'Source',
-};
-
 interface Config {
     basePath?: string;
+    manifest?: string;
     targetElement?: HTMLElement;
 }
 
 export interface Manifest {
     title: string;
     version: string;
-    lang?: { [k in keyof typeof langDefault]?: string };
     shiki?: {
         cdn?: string;
         theme?: string;
@@ -27,11 +23,13 @@ export interface Manifest {
 
 export class ACDOC {
     readonly basePath: string;
+    readonly manifestName: string;
     readonly targetElement: HTMLElement;
     page: Page;
 
     constructor(config: Config) {
         this.basePath = getOrElse(config, 'basePath', '/docs/');
+        this.manifestName = getOrElse(config, 'manifest', 'manifest.json');
         this.targetElement = getOrElse(config, 'targetElement', document.body);
         this.targetElement.classList.add('acdoc');
         console.debug('basePath:', this.basePath);
@@ -40,8 +38,7 @@ export class ACDOC {
     }
 
     private async init() {
-        const manifest = (await httpget(this.basePath + 'manifest.json') //
-            .then((s) => JSON.parse(s))) as Manifest;
+        const manifest = await this.loadManifest();
 
         this.page = new Page(manifest);
         this.targetElement.innerHTML = '';
@@ -61,6 +58,16 @@ export class ACDOC {
             }
             this.page.loadContent(path, url, query);
         });
+    }
+
+    private async loadManifest() {
+        try {
+            const j = await httpget(this.basePath + this.manifestName);
+            return JSON.parse(j) as Manifest;
+        } catch (err) {
+            this.targetElement.innerHTML = 'Failed to load manifest<br/>' + err;
+            throw err;
+        }
     }
 }
 

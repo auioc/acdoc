@@ -13,7 +13,8 @@
         "router",
         "marked",
         "marked.shiki",
-        "utils"
+        "utils",
+        "main"
     ],
     "cSpell.words": [
         "acdoc",
