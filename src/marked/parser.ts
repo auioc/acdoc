@@ -17,15 +17,12 @@ export class MarkdownParser implements ArticleParser {
         this.shiki = initShiki(page.manifest);
         this.marked = new Marked(
             {
-                // @ts-expect-error
-                headerIds: false,
-                mangle: false,
-            },
-            {
                 renderer: {
                     link: (h, t, s) => link(h, t, s, page.path),
                     heading: heading,
                     paragraph: paragraph,
+                    hr: () => `<hr/>`,
+                    br: () => '<br/>',
                 },
             },
             shikiHighlight(this.shiki, page)
