@@ -5,3 +5,4 @@ node_modules
 public/docs
 public/assets
 public/*.js
+public/*.map

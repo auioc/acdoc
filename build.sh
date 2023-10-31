@@ -11,7 +11,7 @@ branch=$(git branch --show-current)
 sed -i "s;{version};$branch@$commit;g" src/main.ts
 sed -i "s;{version};$branch@$commit;g" temp/style.css
 
-node_modules/.bin/browserify src/main.ts -p tsify >public/acdoc.js
+node_modules/.bin/rollup -c
 
 echo '{"compress":{"pure_funcs":["console.debug"]},"ecma":2017}' >temp/terser.json
 node_modules/.bin/terser --config-file temp/terser.json public/acdoc.js >public/acdoc.min.js

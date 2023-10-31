@@ -18,6 +18,7 @@
     ],
     "cSpell.words": [
         "acdoc",
+        "iife",
         "nohash",
         "nolink",
         "nord",
@@ -25,5 +26,5 @@
         "shiki",
         "tsify"
     ],
-    "liveServer.settings.root": "/public"
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

@@ -28,7 +28,7 @@ export class ACDOC {
     page: Page;
 
     constructor(config: Config) {
-        this.basePath = getOrElse(config, 'basePath', '/docs/');
+        this.basePath = getOrElse(config, 'basePath', 'docs/');
         this.manifestName = getOrElse(config, 'manifest', 'manifest.json');
         this.targetElement = getOrElse(config, 'targetElement', document.body);
         this.targetElement.classList.add('acdoc');

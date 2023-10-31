@@ -2,9 +2,10 @@
     "name": "acdoc",
     "version": "1.1.0",
     "description": "acdoc",
+    "type": "module",
     "scripts": {
-        "watch": "watchify src/main.ts --debug -p tsify -o public/bundle.js",
-        "server": "http-server -p 8080"
+        "watch": "rollup -c --watch --watch.include src/**",
+        "server": "http-server . -p 8080"
     },
     "author": {
         "name": "AUIOC",
@@ -30,11 +31,11 @@
         "shiki": "^0.14.5"
     },
     "devDependencies": {
+        "@rollup/plugin-typescript": "^11.1.5",
         "@types/marked": "^5.0.2",
-        "browserify": "^17.0.0",
         "html-minifier-terser": "^7.2.0",
+        "rollup": "^4.2.0",
         "terser": "^5.19.2",
-        "tsify": "^5.0.4",
         "typescript": "^5.1.6"
     }
 }

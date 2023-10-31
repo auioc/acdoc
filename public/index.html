@@ -7,9 +7,12 @@
     </head>
     <body>
         <main id="app"></main>
-        <script src="bundle.js"></script>
+        <script src="assets/marked.js"></script>
+        <script src="assets/shiki/shiki.js"></script>
+        <script src="acdoc.js"></script>
         <script>
             new ACDOC({
+                basePath: 'docs/',
                 targetElement: document.getElementById('app'),
             });
         </script>
