@@ -27,12 +27,11 @@
     },
     "license": "AGPL-3.0-or-later",
     "dependencies": {
-        "marked": "^5.1.2",
+        "marked": "^9.1.4",
         "shiki": "^0.14.5"
     },
     "devDependencies": {
         "@rollup/plugin-typescript": "^11.1.5",
-        "@types/marked": "^5.0.2",
         "html-minifier-terser": "^7.2.0",
         "rollup": "^4.2.0",
         "terser": "^5.19.2",

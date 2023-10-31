@@ -1,15 +1,10 @@
-import { marked } from 'marked';
 import { parseOption } from './utils';
 
-export function heading(
-    text: string,
-    level: 1 | 2 | 3 | 4 | 5 | 6,
-    raw: string,
-    slugger: marked.Slugger
-) {
+export function heading(text: string, level: number, raw: string) {
     const { str, option } = parseOption(text);
 
-    const id = option.id ? 'heading-' + option.id : slugger.slug(str);
+    // TODO heading id
+    // const id = option.id ? 'heading-' + option.id : slugger.slug(str);
 
-    return `<h${level} id="${id}">${str}</h${level}>`;
+    return `<h${level}>${str}</h${level}>`;
 }

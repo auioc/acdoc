@@ -8,7 +8,10 @@ export default {
         file: 'public/acdoc.js',
         format: 'iife',
         name: 'acdoc',
-        globals: { marked: 'marked', shiki: 'shiki' },
+        globals: {
+            marked: 'marked',
+            shiki: 'shiki',
+        },
         sourcemap: !CI,
     },
     external: ['marked', 'shiki'],

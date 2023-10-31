@@ -1,9 +1,9 @@
-import { marked } from 'marked';
+import { MarkedExtension } from 'marked';
 
 export function highlightExt(
     highlight: (code: string, lang: string) => Promise<string>,
     renderer: (code: string, lang: string) => string
-): marked.MarkedExtension {
+): MarkedExtension {
     return {
         async: true,
         async walkTokens(token) {
@@ -11,7 +11,6 @@ export function highlightExt(
                 const lang = getLang(token.lang);
                 const code = await highlight(token.text, lang); //
                 if (typeof code === 'string' && code !== token.text) {
-                    // @ts-expect-error
                     token.escaped = true;
                     token.text = code;
                 }
