@@ -31,8 +31,7 @@ export function shikiHighlight(
                     );
                     await hl.loadLanguage(lang as shiki.Lang);
                 } else {
-                    console.warn("[Shiki] Unknown language '%s'", lang);
-                    return code;
+                    throw new Error(`[Shiki] Unknown language '${lang}'`);
                 }
             }
             return hl.codeToHtml(code, { lang: lang });

@@ -40,3 +40,15 @@ export class MarkdownParser implements ArticleParser {
         return this.marked.parse(md);
     }
 }
+
+// TODO ?
+export function fixNonMarkedError(err: Error) {
+    if (!err.message.startsWith('marked()')) {
+        err.message = err.message
+            .replace(
+                'Please report this to https://github.com/markedjs/marked.',
+                ''
+            )
+            .trim();
+    }
+}

@@ -34,7 +34,6 @@ export function math(): MarkedExtension {
                           };
                 },
                 renderer: (_t) => {
-                    console.debug(_t);
                     const token = _t as MathToken;
                     return katex.renderToString(token.tex, {
                         displayMode: token.display,

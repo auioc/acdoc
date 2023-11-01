@@ -1,5 +1,5 @@
 import { NotOkResponseError, httpget } from '../fetch/fetch';
-import { ArticleParser } from '../marked/parser';
+import { ArticleParser, fixNonMarkedError } from '../marked/parser';
 import { BiStrConsumer } from '../utils/types';
 import { html, htmlA, progress } from '../utils/utils';
 import { Chapter } from './catalogue';
@@ -45,6 +45,7 @@ export class Article {
             this.body.innerHTML = html;
             return true;
         } catch (err) {
+            fixNonMarkedError(err);
             console.error(err);
             if (err instanceof NotOkResponseError) {
                 this.message('fetch-error', err.toString() + ': ' + this.url);
