@@ -22,6 +22,7 @@ export interface Manifest {
 }
 
 export class ACDOC {
+    static readonly version = '{version}';
     readonly basePath: string;
     readonly manifestName: string;
     readonly targetElement: HTMLElement;
@@ -33,7 +34,6 @@ export class ACDOC {
         this.targetElement = getOrElse(config, 'targetElement', document.body);
         this.targetElement.classList.add('acdoc');
         console.debug('basePath:', this.basePath);
-        window.acdoc = this;
         this.init();
     }
 
@@ -71,14 +71,9 @@ export class ACDOC {
     }
 }
 
-export function version() {
-    return '{version}';
-}
-
 declare global {
     interface Window {
         ACDOC: typeof ACDOC;
-        acdoc: ACDOC;
     }
 }
 
