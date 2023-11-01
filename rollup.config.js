@@ -12,10 +12,11 @@ export default {
         globals: {
             marked: 'marked',
             shiki: 'shiki',
+            katex: 'katex',
         },
         sourcemap: !CI,
     },
-    external: ['marked', 'shiki'],
+    external: ['marked', 'shiki', 'katex'],
     plugins: [
         typescript(),
         nodeResolve({ browser: true, resolveOnly: ['github-slugger'] }),

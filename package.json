@@ -28,12 +28,14 @@
     "license": "AGPL-3.0-or-later",
     "dependencies": {
         "github-slugger": "^2.0.0",
+        "katex": "^0.16.9",
         "marked": "^9.1.4",
         "shiki": "^0.14.5"
     },
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^15.2.3",
         "@rollup/plugin-typescript": "^11.1.5",
+        "@types/katex": "^0.16.5",
         "html-minifier-terser": "^7.2.0",
         "rollup": "^4.2.0",
         "terser": "^5.19.2",

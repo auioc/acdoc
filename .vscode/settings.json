@@ -14,11 +14,13 @@
         "marked",
         "marked.shiki",
         "utils",
-        "main"
+        "main",
+        "marked.math"
     ],
     "cSpell.words": [
         "acdoc",
         "iife",
+        "katex",
         "nohash",
         "nolink",
         "nord",

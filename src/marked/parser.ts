@@ -5,6 +5,7 @@ import { Page } from '../page/page';
 import { heading } from './renderer/heading';
 import { initShiki, shikiHighlight } from './renderer/highlight';
 import { link } from './renderer/link';
+import { math } from './renderer/math';
 import { paragraph } from './renderer/paragraph';
 
 export interface ArticleParser {
@@ -29,7 +30,8 @@ export class MarkdownParser implements ArticleParser {
                     br: () => '<br/>',
                 },
             },
-            shikiHighlight(this.shiki, page)
+            shikiHighlight(this.shiki, page),
+            math()
         );
     }
 
