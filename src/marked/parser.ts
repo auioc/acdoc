@@ -1,3 +1,4 @@
+import GithubSlugger from 'github-slugger';
 import { Marked } from 'marked';
 import shiki from 'shiki';
 import { Page } from '../page/page';
@@ -13,13 +14,16 @@ export interface ArticleParser {
 export class MarkdownParser implements ArticleParser {
     private readonly marked: Marked;
     private readonly shiki: Promise<shiki.Highlighter>;
+    private readonly slugger: GithubSlugger;
+
     constructor(page: Page) {
         this.shiki = initShiki(page.manifest);
+        this.slugger = new GithubSlugger();
         this.marked = new Marked(
             {
                 renderer: {
                     link: (h, t, s) => link(h, t, s, page.path),
-                    heading: heading,
+                    heading: (t, l, r) => heading(t, l, r, this.slugger),
                     paragraph: paragraph,
                     hr: () => `<hr/>`,
                     br: () => '<br/>',
@@ -30,6 +34,7 @@ export class MarkdownParser implements ArticleParser {
     }
 
     public async render(md: string) {
+        this.slugger.reset();
         return this.marked.parse(md);
     }
 }
