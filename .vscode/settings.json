@@ -15,7 +15,8 @@
         "marked.shiki",
         "utils",
         "main",
-        "marked.math"
+        "marked.math",
+        "style"
     ],
     "cSpell.words": [
         "acdoc",
