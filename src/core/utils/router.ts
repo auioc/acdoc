@@ -1,4 +1,4 @@
-import { hashpath } from './utils/utils';
+import { hashpath } from './utils';
 
 let CALLBACK: (p: string, q: string) => void;
 

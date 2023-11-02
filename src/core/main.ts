@@ -1,7 +1,7 @@
 import { httpget } from './fetch/fetch';
 import { Chapter } from './page/catalogue';
 import { Page } from './page/page';
-import { initHashRouter } from './router';
+import { initHashRouter } from './utils/router';
 import { getOrElse } from './utils/utils';
 
 interface Config {

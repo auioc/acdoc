@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "alwaysStrict": true,
-        "baseUrl": "./src",
+        "baseUrl": "./src/core",
         "esModuleInterop": true,
         "lib": ["ES2022", "DOM", "DOM.Iterable"],
         "module": "ES2022",
@@ -9,10 +9,10 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "removeComments": true,
-        "rootDir": "./src",
+        "rootDir": "./src/core",
         "sourceMap": true,
         "strictFunctionTypes": true,
         "target": "ES2022"
     },
-    "include": ["./src/**/*"]
+    "include": ["./src/core/**/*"]
 }

@@ -4,7 +4,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 const CI = process.env.CI === 'true' || false;
 
 export default {
-    input: 'src/main.ts',
+    input: 'src/core/main.ts',
     output: {
         file: 'public/acdoc.js',
         format: 'iife',
