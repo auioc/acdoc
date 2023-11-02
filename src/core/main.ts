@@ -33,7 +33,6 @@ export class ACDOC {
         this.manifestName = getOrElse(config, 'manifest', 'manifest.json');
         this.targetElement = getOrElse(config, 'targetElement', document.body);
         this.targetElement.classList.add('acdoc');
-        console.debug('basePath:', this.basePath);
         this.init();
     }
 

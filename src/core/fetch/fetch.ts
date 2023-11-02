@@ -1,5 +1,3 @@
-import { hashpath } from '../utils/utils';
-
 export class NotOkResponseError extends Error {
     readonly status;
     readonly statusText;
@@ -22,15 +20,6 @@ export function abortFetch() {
 }
 
 let _acceptCompressed = false; // TODO
-
-export function onFetchError(error: Error) {
-    console.error(error, { error });
-    if (error instanceof NotOkResponseError) {
-        const m = error.status + ' ' + error.statusText + ' ' + hashpath();
-    } else if (error.name === 'AbortError') {
-    } else {
-    }
-}
 
 function onFetchProgress(received: number, length: number) {}
 

@@ -5,7 +5,6 @@ let CALLBACK: (p: string, q: string) => void;
 async function hashChange() {
     const hash = hashpath();
     if (!hash) {
-        console.debug('hashchange: set default');
         hashpath('/');
         return;
     }
@@ -13,7 +12,6 @@ async function hashChange() {
         hashpath('/' + hash);
         return;
     }
-    console.debug('hashchange:', hash);
     const [path, query] = hash.split('?');
     CALLBACK(path, query);
 }
