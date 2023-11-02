@@ -6,7 +6,7 @@ const CI = process.env.CI === 'true' || false;
 export default {
     input: 'src/core/main.ts',
     output: {
-        file: 'public/acdoc.js',
+        file: 'dist/acdoc.js',
         format: 'iife',
         name: 'acdoc',
         globals: {
