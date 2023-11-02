@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "watch:ts": "rollup -c --watch",
-        "watch:scss": "sass --watch src/style/main.scss:dist/style.css",
+        "watch:scss": "sass --watch src/style/main.scss:dist/acdoc.css",
         "server": "http-server . -p 8080"
     },
     "author": {

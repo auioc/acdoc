@@ -15,5 +15,5 @@ node_modules/.bin/rollup -c
 echo '{"compress":{"pure_funcs":["console.debug"]},"ecma":2017}' >temp/terser.json
 node_modules/.bin/terser --config-file temp/terser.json dist/acdoc.js >dist/acdoc.min.js
 
-node_modules/.bin/sass --no-source-map src/style/main.scss:dist/style.css
-node_modules/.bin/sass --no-source-map --style compressed src/style/main.scss:dist/style.min.css
+node_modules/.bin/sass --no-source-map src/style/main.scss:dist/acdoc.css
+node_modules/.bin/sass --no-source-map --style compressed src/style/main.scss:dist/acdoc.min.css
