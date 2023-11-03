@@ -46,6 +46,10 @@ export class Page {
         this.articleElement.innerHTML = '';
         if (chapter) {
             this.title(chapter.notitle ? null : chapter.title);
+            if (chapter.url) {
+                console.log('Alternative chapter: %s => %s', url, chapter.url);
+                url = chapter.url;
+            }
             this.article = new Article(
                 chapter,
                 this.parser,
@@ -59,7 +63,7 @@ export class Page {
                 this.messager.clear();
             }
         } else {
-            const m = 'Unrecognized Chapter: ' + path;
+            const m = 'Unrecognized chapter: ' + path;
             this.messager.message('error-chapter', m);
             console.error(m);
         }

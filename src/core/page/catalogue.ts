@@ -3,6 +3,7 @@ import { addClass, html, linkHash, removeClass } from '../utils/utils';
 export interface Chapter {
     title: string;
     path: string;
+    url?: string;
     noindex?: boolean;
     notitle?: boolean;
     hide?: boolean;
