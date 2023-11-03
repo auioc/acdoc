@@ -34,6 +34,7 @@ export class Article {
     public async start() {
         this.genInfo();
         try {
+            this.message('fetching', 'Fetching markdown... ');
             const md = await httpget(this.url, {}, (r, l) =>
                 this.message(
                     'fetching',

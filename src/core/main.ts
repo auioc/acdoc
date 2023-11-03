@@ -2,7 +2,7 @@ import { httpget } from './fetch/fetch';
 import { Chapter } from './page/catalogue';
 import { Page } from './page/page';
 import { initHashRouter } from './utils/router';
-import { getOrElse } from './utils/utils';
+import { getOrElse, progress } from './utils/utils';
 
 interface Config {
     basePath?: string;
@@ -33,7 +33,11 @@ export class ACDOC {
         this.manifestName = getOrElse(config, 'manifest', 'manifest.json');
         this.targetElement = getOrElse(config, 'targetElement', document.body);
         this.targetElement.classList.add('acdoc');
-        this.init();
+        this.targetElement.innerHTML = 'Initializing...';
+        this.init().catch((err) => {
+            console.error(err);
+            this.targetElement.innerHTML = err;
+        });
     }
 
     private async init() {
@@ -61,7 +65,14 @@ export class ACDOC {
 
     private async loadManifest() {
         try {
-            const j = await httpget(this.basePath + this.manifestName);
+            const j = await httpget(
+                this.basePath + this.manifestName,
+                {},
+                (r, l) => {
+                    this.targetElement.innerHTML =
+                        'Fetching manifest... ' + progress(r, l);
+                }
+            );
             return JSON.parse(j) as Manifest;
         } catch (err) {
             this.targetElement.innerHTML = 'Failed to load manifest<br/>' + err;
