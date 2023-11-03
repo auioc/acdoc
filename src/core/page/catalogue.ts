@@ -71,6 +71,9 @@ export class Catalogue {
     }
 
     public addToMap(path: string, chapter: Chapter, link: HTMLElement) {
+        if (path in this.map) {
+            throw new Error('Duplicate chapter: ' + path);
+        }
         this.map[path] = { chapter: chapter, li: link };
     }
 
