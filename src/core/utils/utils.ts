@@ -94,9 +94,7 @@ export function opHtml<E extends HTMLElement>(el: E, f: (el: E) => void) {
 export function htmlA(text: string, url?: string, clazz?: string) {
     const a = document.createElement('a');
     a.innerText = text;
-    if (url) {
-        a.href = url;
-    }
+    a.href = url ? url : 'javascript:void(0);';
     if (clazz) {
         a.className = clazz;
     }
