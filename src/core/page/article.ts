@@ -1,21 +1,22 @@
 import { NotOkResponseError, httpget } from '../fetch/fetch';
-import { ArticleParser, fixNonMarkedError } from '../marked/parser';
+import { MarkdownParser, fixNonMarkedError } from '../marked/parser';
 import { BiStrConsumer } from '../utils/types';
-import { html, htmlA, progress } from '../utils/utils';
+import { html, htmlA, opHtml, progress } from '../utils/utils';
 import { Chapter } from './catalogue';
 
 export class Article {
-    readonly parser: ArticleParser;
+    readonly parser: MarkdownParser;
     readonly chapter: Chapter;
     readonly message: BiStrConsumer;
     readonly url: string;
     readonly query: string;
     readonly body = html('article', 'article-body');
+    readonly toc = html('div', 'article-toc');
     readonly info = html('div', 'article-info');
 
     constructor(
         chapter: Chapter,
-        parser: ArticleParser,
+        parser: MarkdownParser,
         messager: BiStrConsumer,
         url: string,
         query: string
@@ -44,6 +45,7 @@ export class Article {
             this.message('rendering', 'Rendering ... ');
             const html = await this.parser.render(md);
             this.body.innerHTML = html;
+            this.genToc();
             return true;
         } catch (err) {
             fixNonMarkedError(err);
@@ -63,6 +65,34 @@ export class Article {
         if (d.source) {
             this._ip('Source:', htmlA(d.source, d.source));
         }
+    }
+
+    private genToc() {
+        const toc = this.parser.getToc();
+        for (const t of toc) {
+            if (t.tocIgnore) {
+                continue;
+            }
+            // TODO (WIP)
+            this.toc.append(
+                opHtml(htmlA(t.title, null, 'toc-item'), (el) => {
+                    el.style.marginLeft = t.level + 'em';
+                    el.title = t.title;
+                    el.dataset.titleId = t.id;
+                    el.onclick = (ev) => {
+                        document
+                            .getElementById(
+                                (<HTMLElement>ev.target).dataset.titleId
+                            )
+                            .scrollIntoView({
+                                block: 'start',
+                                behavior: 'smooth',
+                            });
+                    };
+                })
+            );
+        }
+        this.body.prepend(this.toc);
     }
 
     public html() {

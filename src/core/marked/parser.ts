@@ -2,20 +2,17 @@ import GithubSlugger from 'github-slugger';
 import { Marked } from 'marked';
 import shiki from 'shiki';
 import { Page } from '../page/page';
-import { heading } from './renderer/heading';
+import { TOC, heading } from './renderer/heading';
 import { initShiki, shikiHighlight } from './renderer/highlight';
 import { link } from './renderer/link';
 import { math } from './renderer/math';
 import { paragraph } from './renderer/paragraph';
 
-export interface ArticleParser {
-    render(text: string): Promise<string>;
-}
-
-export class MarkdownParser implements ArticleParser {
+export class MarkdownParser {
     private readonly marked: Marked;
     private readonly shiki: Promise<shiki.Highlighter>;
     private readonly slugger: GithubSlugger;
+    private toc: TOC[];
 
     constructor(page: Page) {
         this.shiki = initShiki(page.manifest);
@@ -24,7 +21,8 @@ export class MarkdownParser implements ArticleParser {
             {
                 renderer: {
                     link: (h, t, s) => link(h, t, s, page.path),
-                    heading: (t, l, r) => heading(t, l, r, this.slugger),
+                    heading: (t, l, r) =>
+                        heading(t, l, r, this.slugger, this.toc),
                     paragraph: paragraph,
                     hr: () => `<hr/>`,
                     br: () => '<br/>',
@@ -37,7 +35,12 @@ export class MarkdownParser implements ArticleParser {
 
     public async render(md: string) {
         this.slugger.reset();
+        this.toc = [];
         return this.marked.parse(md);
+    }
+
+    public getToc() {
+        return this.toc;
     }
 }
 

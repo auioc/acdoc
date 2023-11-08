@@ -169,6 +169,29 @@ body > .acdoc > .page {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                .article-toc {
+                    // TODO (WIP) better toc style
+                    display: none;
+                    clear: both;
+                    float: right;
+                    border: 1px solid var(--border-color);
+                    background-color: var(--bg-color-2);
+                    padding: 0.25em;
+                    margin: 0.5em 0.25em;
+                    max-width: 140px;
+                    font-size: 0.9em;
+                    .toc-item {
+                        display: block;
+                    }
+                }
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6 {
+                    scroll-margin-top: 1em;
+                }
                 table {
                     background-color: var(--bg-color-2);
                     color: #202122;

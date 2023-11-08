@@ -1,5 +1,5 @@
 import { Manifest } from '../main';
-import { ArticleParser, MarkdownParser } from '../marked/parser';
+import { MarkdownParser } from '../marked/parser';
 import {
     addClass,
     html,
@@ -15,7 +15,7 @@ import { Messager } from './messager';
 export class Page {
     readonly manifest: Manifest;
     readonly messager: Messager;
-    readonly parser: ArticleParser;
+    readonly parser: MarkdownParser;
     readonly catalogue: Catalogue;
     readonly pageElement: HTMLElement;
     readonly asideLeftElement: HTMLElement;
