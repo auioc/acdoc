@@ -44,11 +44,13 @@ export class MarkdownParser implements ArticleParser {
 // TODO ?
 export function fixNonMarkedError(err: Error) {
     if (!err.message.startsWith('marked()')) {
-        err.message = err.message
-            .replace(
-                'Please report this to https://github.com/markedjs/marked.',
-                ''
-            )
-            .trim();
+        try {
+            err.message = err.message
+                .replace(
+                    'Please report this to https://github.com/markedjs/marked.',
+                    ''
+                )
+                .trim();
+        } catch (_) {}
     }
 }
