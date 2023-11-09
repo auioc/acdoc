@@ -2,8 +2,6 @@
 
 mkdir temp
 
-npm install
-
 # Version
 commit=$(git rev-parse --verify HEAD)
 branch=$(git branch --show-current)
