@@ -1,9 +1,0 @@
-shamefully-hoist=true
-
-# 当值为 true 时，将自动安装任何缺少的非可选同级依赖关系。
-auto-install-peers=true
-
-# 如果启用了此选项，那么在依赖树中存在缺失或无效的 peer 依赖关系时，命令将执行失败。
-# peer-dependencies: 同等依赖，或者叫同伴依赖， 用于指定当前包（也就是你写的包）兼容的宿主版本。
-# 用于解决插件与所依赖包不一致的问题。
-strict-peer-dependencies=false
